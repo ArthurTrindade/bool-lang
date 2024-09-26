@@ -1,46 +1,55 @@
-import java.util.regex.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
-    enum Instructions {
-        STD, RET, ATR
+    public static void main(String[] args) throws IOException {
+
+        run("src/main.bool");
     }
 
-    public static void main(String[] args) {
+    public static void run(String name) throws IOException {
+        String newName = createFile(name);
 
-        String line = "class Pessoa";
+        var sc = new Scanner(new File(name));
+        FileWriter fw = new FileWriter(newName);
 
-        switch (test(line)) {
-            case RET -> System.out.println("Linha: Return");
-            case ATR -> System.out.println("Linha: atribuição");
-            default -> System.out.println("linha");
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+
+            String data = Test.test(line);
+
+            fw.append(data);
+            fw.append("\n");
+
         }
 
+        fw.close();
+        sc.close();
     }
 
-    public static Instructions test(String line) {
-        if (regexReturn(line)) {
-            return Instructions.RET;
-        } else if (atriRegex(line)) {
-            return Instructions.ATR;
+    public static String createFile(String name) {
+        String newName = name + "c";
+
+        try {
+
+            var newFile = new File(newName);
+
+            if (newFile.createNewFile()) {
+                System.out.println("arguivo criado: " + newFile.getName());
+            } else {
+                System.out.println("arquivo não criado");
+            }
+
+        } catch (IOException e) {
+            System.out.println("erro");
+            e.printStackTrace();
         }
-        return Instructions.STD;
+
+        return newName;
     }
 
-    public static boolean atriRegex(String text) {
 
-        Pattern pattern = Pattern.compile(Regex.ATR);
-        Matcher matcher = pattern.matcher(text);
-
-        return matcher.find();
-    }
-
-    public static boolean regexReturn(String text) {
-
-        Pattern pattern = Pattern.compile(Regex.RET);
-        Matcher matcher = pattern.matcher(text);
-
-        return matcher.find();
-    }
 }
-
 
