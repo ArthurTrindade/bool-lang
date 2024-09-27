@@ -14,11 +14,11 @@ public class Regex {
         return testRegex(text, Regex.NUMBER);
     }
 
-    public static boolean atriRegex(String text) {
+    public static boolean testAtr(String text) {
         return testRegex(text, Regex.ATR);
     }
 
-    public static boolean regexReturn(String text) {
+    public static boolean testReturn(String text) {
         return testRegex(text, Regex.RET);
     }
 

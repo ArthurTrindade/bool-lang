@@ -51,9 +51,9 @@ public class Test {
     }
 
     public static Instructions testAtr(String line) {
-        if (Regex.regexReturn(line)) {
+        if (Regex.testReturn(line)) {
             return Instructions.RET;
-        } else if (Regex.atriRegex(line)) {
+        } else if (Regex.testAtr(line)) {
             return Instructions.ATR;
         }
         return Instructions.STD;
