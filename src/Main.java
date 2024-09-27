@@ -39,7 +39,7 @@ public class Main {
             if (newFile.createNewFile()) {
                 System.out.println("arguivo criado: " + newFile.getName());
             } else {
-                System.out.println("arquivo não criado");
+                System.out.println("arquivo ja existe");
             }
 
         } catch (IOException e) {

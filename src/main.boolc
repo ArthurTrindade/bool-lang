@@ -1,3 +1,2 @@
-class Pessoa
-load arthur
-ret
+const 1024
+store a
