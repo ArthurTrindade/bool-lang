@@ -1,3 +1,4 @@
 public enum Instructions {
-    STD, RET, ATR
+    STD, RET, ATR, NAME, NUMBER,
+    OBJ
 }

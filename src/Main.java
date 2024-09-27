@@ -37,7 +37,7 @@ public class Main {
             var newFile = new File(newName);
 
             if (newFile.createNewFile()) {
-                System.out.println("arguivo criado: " + newFile.getName());
+                System.out.println("arquivo criado: " + newFile.getName());
             } else {
                 System.out.println("arquivo ja existe");
             }
@@ -49,7 +49,5 @@ public class Main {
 
         return newName;
     }
-
-
 }
 

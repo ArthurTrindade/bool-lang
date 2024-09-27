@@ -1,2 +1,3 @@
-const 1024
-store b
+
+load p
+set name
