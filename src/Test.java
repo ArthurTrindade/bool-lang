@@ -1,5 +1,6 @@
 import java.util.regex.*;
 
+
 public class Test {
 
     public static String test(String line) {
@@ -7,7 +8,7 @@ public class Test {
         switch (testAtr(line)) {
             case RET: return matchRet(line);
             case ATR: return matchAtr(line);
-            default: System.out.println("linha");
+            default:;
         }
 
         return line;
@@ -24,13 +25,13 @@ public class Test {
             rhs = matcher.group(2);
         }
 
-        if (testName(rhs)) {
+        if (Regex.testName(rhs)) {
             str = "load " + rhs;
-        } else if (testNumber(rhs)) {
+        } else if (Regex.testNumber(rhs)) {
             str = "const " + rhs ;
         }
 
-        if (testName(lhs)) {
+        if (Regex.testName(lhs)) {
             str2 = "store " + lhs;
         }
 
@@ -50,35 +51,12 @@ public class Test {
     }
 
     public static Instructions testAtr(String line) {
-        if (regexReturn(line)) {
+        if (Regex.regexReturn(line)) {
             return Instructions.RET;
-        } else if (atriRegex(line)) {
+        } else if (Regex.atriRegex(line)) {
             return Instructions.ATR;
         }
         return Instructions.STD;
-    }
-
-    public static boolean testName(String text) {
-        return testRegex(text, Regex.NAME);
-    }
-
-    public static boolean testNumber(String text) {
-        return testRegex(text, Regex.NUMBER);
-    }
-
-    public static boolean atriRegex(String text) {
-        return testRegex(text, Regex.ATR);
-    }
-
-    public static boolean regexReturn(String text) {
-        return testRegex(text, Regex.RET);
-    }
-
-    public static boolean testRegex(String text, String regex) {
-        var pattern = Pattern.compile(regex);
-        var matcher = pattern.matcher(text);
-
-        return matcher.find();
     }
 }
 
