@@ -1,9 +1,6 @@
 import java.util.regex.*;
 
 public class Test {
-    enum Instructions {
-        STD, RET, ATR
-    }
 
     public static String test(String line) {
 
@@ -38,17 +35,16 @@ public class Test {
     }
 
     public static boolean atriRegex(String text) {
-
-        Pattern pattern = Pattern.compile(Regex.ATR);
-        Matcher matcher = pattern.matcher(text);
-
-        return matcher.find();
+        return testRegex(text, Regex.ATR);
     }
 
     public static boolean regexReturn(String text) {
+        return testRegex(text, Regex.RET);
+    }
 
-        Pattern pattern = Pattern.compile(Regex.RET);
-        Matcher matcher = pattern.matcher(text);
+    public static boolean testRegex(String text, String regex) {
+        var pattern = Pattern.compile(regex);
+        var matcher = pattern.matcher(text);
 
         return matcher.find();
     }
