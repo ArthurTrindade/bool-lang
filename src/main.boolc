@@ -50,7 +50,9 @@ begin
  	store b
  	new Pessoa
  	store p
- 	p._prototype = b
+ 	load b
+ 	load p
+ 	set _prototype
  	
  	const 111
  	load b

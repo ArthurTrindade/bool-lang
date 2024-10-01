@@ -17,18 +17,20 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		run("src/main.bool");
+		if (args.length != 0) {
+			run("src/" + args[0]);
+		}	
 	}
 	
 	// Regexes
 	final static String[] regexes = {
-			"(\\s*)return\\s+([a-zA-Z]+)",															// return
-			"(\\s*)([a-zA-Z]+)\\.?([a-zA-Z]+)?\\s+=\\s+([a-zA-Z|0-9]+)\\.?([a-zA-Z]+)?",							// attribution
-			"\\s*if\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+then",							// if
-			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\s+([+*/-])\\s+([a-zA-Z]+)",
-			"(\\s*)([a-zA-Z]+)\\s+=\\s+new\\s+([a-zA-Z]+)",
-			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",
-			"(\\s*)()([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)"
+			"(\\s*)return\\s+([a-zA-Z]+)",														// return
+			"(\\s*)([a-zA-Z]+)\\.?(_?[a-zA-Z]+)?\\s+=\\s+([a-zA-Z|0-9]+)\\.?([a-zA-Z]+)?",		// attribution
+			"\\s*if\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+then",						// if
+			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\s+([+*/-])\\s+([a-zA-Z]+)",					// arithmetic
+			"(\\s*)([a-zA-Z]+)\\s+=\\s+new\\s+([a-zA-Z]+)",										// object creation
+			"(\\s*)([a-zA-Z]+)\\.?([a-zA-Z]+)?\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",	// func call as value
+			"(\\s*)()()([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)"									// func call
 	};
 	
 	public static boolean isNumber(String term) throws IOException {
@@ -65,6 +67,8 @@ public class Main {
 				break;
 			}
 			
+			//    1         2            3                     4                 5
+			// "(\\s*)([a-zA-Z]+)\\.?(_?[a-zA-Z]+)?\\s+=\\s+([a-zA-Z|0-9]+)\\.?([a-zA-Z]+)?"
 			// attribution
 			if (i == 1) {
 				String lhs = matcher.group(2);
@@ -174,11 +178,12 @@ public class Main {
 				break;
 			}
 			
-			//    1        2                     3            4          5
-			// "(\\s*)([a-zA-Z]+)?\\s+=?\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\((.)\\)"
+			//    1        2              3                    4            5          6
+			// "(\\s*)([a-zA-Z]+)\\.?([a-zA-Z]+)?\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)"
 			// Functions
 			if (i == 5 || i == 6) {
-				String aux = matcher.group(5);
+				// tratamento dos argumentos de função
+				String aux = matcher.group(6);
 				if (!aux.isEmpty()) {
 					String[] variArray = aux.split(", ");
 					
@@ -187,11 +192,17 @@ public class Main {
 					}
 				}	
 				
-				str.add(matcher.group(1) + "load " + matcher.group(3));
-				str.add(matcher.group(1) + "call " + matcher.group(4));
+				str.add(matcher.group(1) + "load " + matcher.group(4));
+				str.add(matcher.group(1) + "call " + matcher.group(5));
 				
+				// caso em que função é uma atribuição
 				if (i == 5) {
-					str.add(matcher.group(1) + "store " + matcher.group(2));
+					if (matcher.group(3) == null) {
+						str.add(matcher.group(1) + "store " + matcher.group(2));
+					} else {
+						str.add(matcher.group(1) + "load " + matcher.group(2));
+						str.add(matcher.group(1) + "set " + matcher.group(3));
+					}	
 				}
 					
 				matched = true;
