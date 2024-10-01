@@ -1,3 +1,13 @@
-
-load p
-set name
+load a
+load b
+neq
+if 6
+	const 10
+	store a
+	load a
+	store b
+	load b
+	ret
+else 2
+	load a
+	ret

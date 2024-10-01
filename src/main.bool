@@ -1,1 +1,7 @@
-p.name = a
+if a neq b then
+	a = 10
+	b = a
+	return b
+else
+	return a
+end-if
