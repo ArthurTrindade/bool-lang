@@ -1,6 +1,6 @@
 class Base
 	vars id
-	
+
  	method showid()
  	vars x
  	begin
@@ -14,7 +14,7 @@ end-class
 
 class Pessoa
  	vars num
- 	
+
  	method calc(x)
  	vars y, z
  	begin
@@ -32,12 +32,12 @@ begin
  	b = new Base
  	p = new Pessoa
  	p._prototype = b
- 	
+
  	b.id = 111
- 	
+
  	p.num = 123
  	p.id = 321
- 	
+
  	x = 1024
  	p.showid()
  	p.calc(x)

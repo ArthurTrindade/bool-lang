@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,7 +17,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		if (args.length != 0) {
-			run("src/" + args[0]);
+			run(args[0], args[1]);
 		}	
 	}
 	
@@ -56,14 +55,15 @@ public class Main {
 		for (int i = 0; i < regexes.length; i++) {
 			Pattern pattern = Pattern.compile(regexes[i]);
 			Matcher matcher = pattern.matcher(line);
-			
+
 			if (!matcher.matches()) { continue; }
+			matched = true;
 			
 			// return
 			if (i == 0) {
 				str.add(matcher.group(1) + "load " + matcher.group(2));
 				str.add(matcher.group(1) + "ret");
-				matched = true;
+
 				break;
 			}
 			
@@ -91,7 +91,7 @@ public class Main {
 					str.add(matcher.group(1) + "store " + lhs);
 				}
 				
-				matched = true;
+
 				break;
 			}
 			
@@ -138,7 +138,7 @@ public class Main {
 				int indexIf = str.indexOf("if 0");
 				str.set(indexIf, "if " + countIf);
 				
-				matched = true;
+
 				break;
 			}
 			
@@ -164,8 +164,7 @@ public class Main {
 				}
 				
 				str.add(matcher.group(1) + "store " + matcher.group(2));		
-				
-				matched = true;
+
 				break;
 			}
 			
@@ -173,8 +172,7 @@ public class Main {
 			if (i == 4) {
 				str.add(matcher.group(1) + "new " + matcher.group(3));
 				str.add(matcher.group(1) + "store " + matcher.group(2));
-				
-				matched = true;
+
 				break;
 			}
 			
@@ -202,10 +200,9 @@ public class Main {
 					} else {
 						str.add(matcher.group(1) + "load " + matcher.group(2));
 						str.add(matcher.group(1) + "set " + matcher.group(3));
-					}	
+					}
 				}
-					
-				matched = true;
+
 				break;
 			}
 		}
@@ -217,44 +214,24 @@ public class Main {
 		return str;
 	}
 	
-	public static void run(String name) throws IOException {
-		String newName = createFile(name);
+	public static void run(String sourceName, String destName) throws IOException {
+
+		File dest  = new File(destName);
+
+		boolean createdFile = dest.createNewFile();
+
+		setScanner(sourceName);
 		
-		setScanner(name);
-		FileWriter fw = new FileWriter(newName);
-		
-		List<String> outfile = new ArrayList<>();
+		List<String> compiledFile = new ArrayList<>();
 		
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			List<String> str = compile(line);
-			outfile.addAll(str);
+			compiledFile.addAll(str);
 		}
 		
-		Files.write(Paths.get(newName), outfile);
-		
-		fw.close();
+		Files.write(Paths.get(destName), compiledFile);
+
 		sc.close();
-	}
-	
-	public static String createFile(String name) {
-		String newName = name + "c";
-		
-		try {
-			
-			var newFile = new File(newName);
-			
-			if (newFile.createNewFile()) {
-				System.out.println("arquivo criado: " + newFile.getName());
-			} else {
-				System.out.println("arquivo ja existe");
-			}
-			
-		} catch (IOException e) {
-			System.out.println("erro");
-			e.printStackTrace();
-		}
-		
-		return newName;
 	}
 }
