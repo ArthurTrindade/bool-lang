@@ -105,14 +105,18 @@ public class Main {
 				while (!nextLine.matches("\\s*end-if") && sc.hasNextLine()) {
 					// voltar na linha do if e modificar ela com countIf
 					List<String> str2 = compile(nextLine);
-					countIf += str2.size();
-					str.addAll(str2);
 					
-					nextLine = sc.nextLine();
-					
-					if (temElse) {
-						countElse++;
+					// se str2 tiver linha em branco não pode aumentar os contadores
+					if (!str2.getFirst().trim().isEmpty()) {
+						countIf += str2.size();
+						
+						if (temElse) {
+							countElse++;
+						}
 					}
+					
+					str.addAll(str2);
+					nextLine = sc.nextLine();
 					
 					if (nextLine.matches("\\s*else")) {
 						temElse = true;
