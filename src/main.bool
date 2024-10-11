@@ -1,6 +1,7 @@
-ab.obj(a, b)
-if a eq b then
-    temp = 2
-    c = a*tmp
+if a gt b then
+    return a
+    x = y + z
+else
+    return b
+    a = 7
 end-if
-return c

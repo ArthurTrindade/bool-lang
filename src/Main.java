@@ -44,6 +44,7 @@ public class Main {
 			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",										// 13. chamada de metodo obj.method() ou  obj.method(x,y...)
 
 			"\\s*if\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+then",						// 14. if
+
 	};
 
 
@@ -244,6 +245,7 @@ public class Main {
 			}
 
 			if (i == 14) { // if
+
 				str.add("load " + matcher.group(1));
 				str.add("load " + matcher.group(3));
 				str.add(matcher.group(2));
@@ -262,7 +264,7 @@ public class Main {
 						countIf += str2.size();
 
 						if (temElse) {
-							countElse++;
+							countElse += str2.size();
 						}
 					}
 
@@ -272,6 +274,7 @@ public class Main {
 					if (nextLine.matches("\\s*else")) {
 						temElse = true;
 						str.add("else 0");
+						nextLine = sc.nextLine();
 					}
 				}
 
@@ -285,10 +288,8 @@ public class Main {
 				int indexIf = str.indexOf("if 0");
 				str.set(indexIf, "if " + countIf);
 
-
 				break;
 			}
-
 
 		}
 
