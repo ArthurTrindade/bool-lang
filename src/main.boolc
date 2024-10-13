@@ -1,0 +1,20 @@
+load a
+load b
+gt
+if 6
+    load y
+    load z
+    add
+    store x
+    
+    load a
+    ret
+else 7
+    const 7
+    store a
+    load io
+    call print
+    pop
+    
+    load b
+    ret

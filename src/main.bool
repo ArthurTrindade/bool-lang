@@ -1,7 +1,10 @@
 if a gt b then
-    return a
     x = y + z
+    
+    return a
 else
-    return b
     a = 7
+    io.print()
+    
+    return b
 end-if
