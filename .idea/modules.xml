@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/bool-interpreter.iml" filepath="$PROJECT_DIR$/bool-interpreter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bool-lang.iml" filepath="$PROJECT_DIR$/bool-lang.iml" />
     </modules>
   </component>
 </project>

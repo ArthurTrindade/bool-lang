@@ -15,6 +15,6 @@ else 7
     load io
     call print
     pop
-    
+
     load b
     ret
