@@ -11,11 +11,17 @@ import java.util.regex.Pattern;
 public class BoolCompiler {
 	private static Scanner sc;
 	
-	public static void setScanner(String file) throws IOException {
+	private static void setScanner(String file) throws IOException {
 		sc = new Scanner(new File(file));
 	}
 	
-	public static void run(String sourceName, String destName) throws IOException {
+	public static void main(String[] args) throws IOException {
+		if (args.length != 0) {
+			run(args[0], args[1]);
+		}
+	}
+	
+	private static void run(String sourceName, String destName) throws IOException {
 		File dest  = new File(destName);
 		boolean createdFile = dest.createNewFile();
 		setScanner(sourceName);

@@ -1,10 +1,7 @@
-if a gt b then
-    x = y + z
-    
-    return a
-else
-    a = 7
-    io.print()
-
-    return b
-end-if
+main()
+vars numUm, numDois, numTres
+begin
+	numUm = 10
+	numDois = 20
+	numTres = numUm + numDois
+end
