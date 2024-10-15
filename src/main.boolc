@@ -1,12 +1,12 @@
 main()
 vars numUm, numDois, numTres
 begin
-	const 10
+	const 40
 	store numUm
-	const 20
+	const 10
 	store numDois
 	load numUm
 	load numDois
-	add
+	div
 	store numTres
 end

@@ -1,12 +1,16 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class BoolInterpreter {
 	public static Stack<String> stack;
 	private static Scanner sc;
-	
+
+	static MainMethod mainMethod = new MainMethod();
+
 	private static void setScanner(String file) throws IOException {
 		sc = new Scanner(new File(file));
 	}
@@ -33,41 +37,43 @@ public class BoolInterpreter {
 		// main
 		String line = sc.nextLine();
 		// TODO: verificar main()
-		MainMethod mainMethod = new MainMethod();
+
 		
 		line = sc.nextLine();	// vars num1, num2
 		// TODO: pegar variáveis da main com regex
-		mainMethod.addVariable("numUm", 0);
-		mainMethod.addVariable("numDois", 0);
-		mainMethod.addVariable("numTres", 0);
-		
+		mainMethod.addVariable("numUm", "0");
+		mainMethod.addVariable("numDois", "0");
+		mainMethod.addVariable("numTres", "0");
+
 		line = sc.nextLine();	// begin
 		// TODO: descobrir instrução com regex
 		
 		line = sc.nextLine();	// const 10
-		stack.push("10");
+//		stack.push("10");
+		interpret(line);
 		
 		line = sc.nextLine();	// store numUm
 		mainMethod.updateVariable("numUm");
 		
 		line = sc.nextLine();	// const 20
-		stack.push("20");
+//		stack.push("20");
+		interpret(line);
 		
 		line = sc.nextLine();	// store numDois
-		mainMethod.updateVariable("numUm");
+		mainMethod.updateVariable("numDois");
 		
 		line = sc.nextLine();	// load numUm
-		stack.push("numUm");
-		
+//		stack.push("numUm");
+		interpret(line);
+
 		line = sc.nextLine();	// load numDois
-		stack.push("numDois");
-		
+//		stack.push("numDois");
+		interpret(line);
+
 		line = sc.nextLine();	// add
-		var v2 = stack.pop();
-		var v1 = stack.pop();
-		var result = v1 + v2;
-		stack.push(result);
-		
+
+		interpret(line);
+
 		line = sc.nextLine();	// store numTres
 		mainMethod.updateVariable("numTres");
 		
@@ -80,6 +86,51 @@ public class BoolInterpreter {
 		System.out.println(mainMethod.getVariable("numTres"));
 		
 		sc.close();
+	}
+
+	public static void interpret(String line) {
+		Pattern pattern = Pattern.compile("\\s*add|\\s*sub|\\s*mul|\\s*div");
+		Matcher matcher = pattern.matcher(line);
+
+		if (matcher.matches()) {
+			eval(line);
+		}
+
+		pattern = Pattern.compile("\\s*const\\s*(-?[0-9]+)");
+		matcher = pattern.matcher(line);
+
+		if (matcher.matches()) {
+			interpretConst(matcher.group(1));
+		}
+
+		pattern = Pattern.compile("\\s*load\\s*([a-zA-Z]+)");
+		matcher = pattern.matcher(line);
+
+		if (matcher.matches()) {
+			interpretLoad(matcher.group(1));
+		}
+	}
+
+	public static void interpretConst(String value) {
+		stack.push(value);
+	}
+
+	public static void interpretLoad(String name) {
+		stack.push(name);
+	}
+
+	public static void eval(String line) {
+		var v2 = Integer.parseInt(mainMethod.getVariable(stack.pop()));
+		var v1 = Integer.parseInt(mainMethod.getVariable(stack.pop()));
+		int result = switch (line.trim()) {
+            case "add" -> v1 + v2;
+            case "sub" -> v1 - v2;
+            case "mul" -> v1 * v2;
+            case "div" -> v1 / v2;
+            default -> 0;
+        };
+		System.out.println("eval");
+        stack.push(String.valueOf(result));
 	}
 }
 
@@ -105,10 +156,10 @@ class Method {
 }
 
 class MainMethod {
-	private Map<String, Object> vars = new HashMap<>();
+	private Map<String, String> vars = new HashMap<>();
 	private List<String> body;
 	
-	public void addVariable(String name, Object value) {
+	public void addVariable(String name, String value) {
 		vars.put(name, value);
 	}
 	
@@ -117,7 +168,7 @@ class MainMethod {
 		vars.put(name, pop);
 	}
 	
-	public Object getVariable(String name) {
+	public String getVariable(String name) {
 		return vars.get(name);
 	}
 }
