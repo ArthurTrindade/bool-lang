@@ -3,10 +3,20 @@ vars numUm, numDois, numTres
 begin
 	const 40
 	store numUm
-	const 10
+	const 20
 	store numDois
+	
 	load numUm
 	load numDois
-	div
-	store numTres
+	lt
+	if 4
+		load numUm
+		load numDois
+		add
+		store numTres
+	else 4
+		load numUm
+		load numDois
+		sub
+		store numTres
 end

@@ -1,7 +1,12 @@
 main()
 vars numUm, numDois, numTres
 begin
-	numUm = 10
+	numUm = 40
 	numDois = 20
-	numTres = numUm + numDois
+	
+	if numUm lt numDois then
+		numTres = numUm + numDois
+	else
+		numTres = numUm - numDois
+	end-if
 end

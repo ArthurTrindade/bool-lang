@@ -41,7 +41,7 @@ public class BoolCompiler {
 	
 	// Regexes
 	final static String[] regexes = {
-			"(\\s*)return\\s+([a-zA-Z]+)",                     									 // 0. return
+			"(\\s*)return\\s+([a-zA-Z]+)",                     									// 0. return
 			
 			"(\\s*)([a-zA-Z]+)\\s+=\\s+([0-9]+)", 												// 1. atribuição a = 10
 			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)",                                            // 2. atribuição a = b
@@ -61,7 +61,7 @@ public class BoolCompiler {
 			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",	// 12. chamada de metodo a.obj = obj.method() ou a.obj = obj.method(x,y...)
 			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",										// 13. chamada de metodo obj.method() ou  obj.method(x,y...)
 			
-			"\\s*if\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+then",						// 14. if
+			"(\\s*)if\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+then",					// 14. if
 		
 	};
 	
@@ -265,9 +265,9 @@ public class BoolCompiler {
 			
 			if (i == 14) { // if
 				
-				str.add("load " + matcher.group(1));
-				str.add("load " + matcher.group(3));
-				str.add(matcher.group(2));
+				str.add(matcher.group(1) + "load " + matcher.group(2));
+				str.add(matcher.group(1) + "load " + matcher.group(4));
+				str.add(matcher.group(1) + matcher.group(3));
 				str.add("if 0");
 				
 				String nextLine = sc.nextLine();
@@ -300,12 +300,12 @@ public class BoolCompiler {
 					countIf -= countElse;
 					
 					int indexElse = str.indexOf("else 0");
-					str.set(indexElse, "else " + countElse);
+					str.set(indexElse, matcher.group(1) + "else " + countElse);
 				}
 				
 				// voltar na linha do if e modificar ela com countIf
 				int indexIf = str.indexOf("if 0");
-				str.set(indexIf, "if " + countIf);
+				str.set(indexIf, matcher.group(1) + "if " + countIf);
 				
 				break;
 			}
