@@ -1,5 +1,5 @@
 main()
-vars numUm, numDois, numTres
+vars numUm, numDois, numTres, p
 begin
 	numUm = 40
 	numDois = 20
@@ -9,4 +9,7 @@ begin
 	else
 		numTres = numUm - numDois
 	end-if
+
+	 p = new Pessoa
+	 a = p
 end

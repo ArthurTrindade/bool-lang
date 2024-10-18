@@ -6,8 +6,9 @@ import java.util.regex.Pattern;
 
 
 public class BoolInterpreter {
-	public static Stack<String> stack;
+	public static Stack<Variable> stack;
 	private static Scanner sc;
+	private static List<Class> classes = new ArrayList<>();
 
 	static MainMethod mainMethod = new MainMethod();
 
@@ -18,7 +19,11 @@ public class BoolInterpreter {
 	private static void setStack() {
 		stack = new Stack<>();
 	}
-	
+
+	private static void setClasses() {
+		classes = new ArrayList<>();
+	}
+
 	public static void main(String[] args) throws IOException {
 		if (args.length != 0) {
 			run(args[0]);
@@ -28,17 +33,32 @@ public class BoolInterpreter {
 	private static void run(String sourceName) throws IOException {
 		setScanner(sourceName);
 		setStack();
-		
+
+		Map<String, Variable> atributes = new HashMap<>();
+
+		atributes.put("id", new Variable(10));
+		atributes.put("idade", new Variable(20));
+
+		Class c = new Class("Pessoa", atributes);
+
+		classes.add(c);
+
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			interpret(line); 
 		}
 		
 		System.out.println("Valores das variáveis:");
-		System.out.println("numUm: " + mainMethod.getVariable("numUm"));
-		System.out.println("numDois: " + mainMethod.getVariable("numDois"));
-		System.out.println("numTres: " + mainMethod.getVariable("numTres"));
-		
+		System.out.println("numUm: " + mainMethod.getVariable("numUm").getValue());
+		System.out.println("numDois: " + mainMethod.getVariable("numDois").getValue());
+		System.out.println("numTres: " + mainMethod.getVariable("numTres").getValue());
+		System.out.println("p: " + mainMethod.getVariable("p").getClasse().getName());
+		System.out.println("a: " + mainMethod.getVariable("a").getClasse().getName());
+
+		System.out.println("p.id: " + mainMethod.getVariable("p").getClasse().getVars().get("id").getValue());
+		System.out.println("a.id: " + mainMethod.getVariable("a").getClasse().getVars().get("id").getValue());
+
+
 		sc.close();
 	}
 	
@@ -56,6 +76,7 @@ public class BoolInterpreter {
 			"\\s*(gt|ge|lt|le|eq|ne)",						// 5. comparações
 			"\\s*if\\s+([0-9]+)",							// 6. if
 			"\\s*else\\s+([0-9]+)",							// 7. else
+			"\\s*new\\s*([a-zA-Z]+)"                        // 8. new <name>
 	};
 
 	public static void interpret(String line) {
@@ -116,7 +137,11 @@ public class BoolInterpreter {
 					interpretElse(matcher.group(1));
 					matched = true;
 					break;
-					
+
+				case 8:
+					interpretNew(matcher.group(1));
+					matched = true;
+					break;
 				default:
 					break;
 			}
@@ -126,8 +151,9 @@ public class BoolInterpreter {
 	}
 	
 	public static void interpretMath(String op) {
-		int v2 = Integer.parseInt(mainMethod.getVariable(stack.pop()));
-		int v1 = Integer.parseInt(mainMethod.getVariable(stack.pop()));
+		int v2 = stack.pop().getValue();
+		int v1 = stack.pop().getValue();
+
 		int result = switch (op) {
 			case "add" -> v1 + v2;
 			case "sub" -> v1 - v2;
@@ -135,32 +161,37 @@ public class BoolInterpreter {
 			case "div" -> v1 / v2;
 			default -> 0;
 		};
-		stack.push(String.valueOf(result));
+
+		Variable v = new Variable(result);
+		stack.push(v);
 	}
-	
+
 	public static void interpretConst(String value) {
-		stack.push(value);
+		Variable v = new Variable(Integer.parseInt(value));
+		stack.push(v);
 	}
 
 	public static void interpretLoad(String name) {
-		stack.push(name);
+		stack.push(mainMethod.getVariable(name));
 	}
 	
 	public static void interpretStore(String name) {
-		mainMethod.updateVariable(name);
+		Variable variable = stack.pop();
+		mainMethod.updateVariable(name, variable);
 	}
 	
 	public static void interpretVars(String names) {
 		String[] namesList = names.split("\\s*,\\s+");
 		
 		for (String name : namesList) {
-			mainMethod.addVariable(name, "0");
+			mainMethod.addVariable(name, new Variable());
 		}
 	}
 	
 	public static void interpretLogic(String op) {
-		int v2 = Integer.parseInt(mainMethod.getVariable(stack.pop()));
-		int v1 = Integer.parseInt(mainMethod.getVariable(stack.pop()));
+		int v2 = stack.pop().getValue();
+		int v1 = stack.pop().getValue();
+
 		boolean result = switch (op) {
 			case "gt" -> v1 >  v2;
 			case "ge" -> v1 >= v2;
@@ -170,17 +201,19 @@ public class BoolInterpreter {
 			case "ne" -> v1 != v2;
 			default -> false;
 		};
-		stack.push(String.valueOf(result));
+
+		Variable newVariable = new Variable(result);
+		stack.push(newVariable);
 	}
 	
 	public static void interpretIf(String value) {
 		int numLines = Integer.parseInt(value);
-		boolean skip = stack.pop().equals("false");
-		
-		if (skip) {	// pula if e executa else
+		boolean skip = stack.pop().getCondition();
+
+		if (!skip) {	// pula if e executa else
 			for (int i = 0; i < numLines; i++) {
 				String line = sc.nextLine(); // instruções do if
-				
+
 				// Ignora linhas em branco
 				if (line.trim().isEmpty()) {
 					i--;
@@ -205,40 +238,69 @@ public class BoolInterpreter {
 			}
 		}
 	}
+
+	public static void interpretNew(String name) {
+		Class c = classes.getFirst();
+		Variable variable = new Variable(c);
+		stack.push(variable);
+	}
 }
 
 class MainMethod {
-	private Map<String, String> vars = new HashMap<>();
+	private final Map<String, Variable> vars = new HashMap<>();
 	private List<String> body;
-	
-	public void addVariable(String name, String value) {
+
+
+	public void addVariable(String name, Variable value) {
 		vars.put(name, value);
 	}
 	
-	public void updateVariable(String name) {
-		String pop = BoolInterpreter.stack.pop();
-		Pattern pattern = Pattern.compile("[a-zA-Z]+");
-		Matcher matcher = pattern.matcher(pop);
-		
-		// name
-		if (matcher.matches()) {
-			pop = getVariable(pop);
-		}
-		
-		vars.put(name, pop);
+	public void updateVariable(String name, Variable variable) {
+//		Pattern pattern = Pattern.compile("[a-zA-Z]+");
+//		Matcher matcher = pattern.matcher(pop);
+//		Variable v = new Variable();
+//		 name
+//		if (matcher.matches()) {
+//			v = getVariable(pop);
+//		}
+//
+//		v.setValue(Integer.parseInt(pop));
+
+		vars.put(name, variable);
 	}
 	
-	public String getVariable(String name) {
+	public Variable getVariable(String name) {
 		return vars.get(name);
 	}
 }
 
 class Class {
 	private String name;
-	private List<String> vars;
-	
+	private Map<String, Variable> vars;
 	private List<Method> methods;
+
 	public Class() {
+	}
+
+	public Class(String name, Map<String, Variable> vars) {
+		this.name = name;
+		this.vars = vars;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Map<String, Variable> getVars() {
+		return vars;
+	}
+
+	public void setVars(Map<String, Variable> vars) {
+		this.vars = vars;
 	}
 }
 
@@ -249,5 +311,49 @@ class Method {
 	
 	private List<String> body;
 	public Method() {
+	}
+}
+
+class Variable {
+	private int value = 0;
+	private boolean condition;
+	private Class classe;
+
+	public Variable() {}
+
+	public Variable(Class classe) {
+		this.classe = classe;
+	}
+
+	public Variable(int value) {
+		this.value = value;
+	}
+
+	public Variable(boolean condition) {
+		this.condition = condition;
+	}
+
+	public void setClasse(Class classe) {
+		this.classe = classe;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	public Class getClasse() {
+		return classe;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public boolean getCondition() {
+		return condition;
+	}
+
+	public void setCondition(boolean condition) {
+		this.condition = condition;
 	}
 }
