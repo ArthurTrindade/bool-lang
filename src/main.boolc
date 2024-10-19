@@ -29,5 +29,9 @@ begin
 	 store n
      load n
      call retorna
-     store m
+     store b
+
+     const 10
+     load self
+     set id
 end

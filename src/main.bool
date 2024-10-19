@@ -15,4 +15,6 @@ begin
 
 	 n = new Num
      b = n.retorna()
+
+     self.id = 10
 end

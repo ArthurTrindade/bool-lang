@@ -33,6 +33,7 @@ public class BoolInterpreter {
 		Map<String, Variable> atributes1 = new HashMap<>();
 		atributes1.put("id", new Variable());
 		atributes1.put("idade", new Variable(20));
+		Class c1 = new Class("Pessoa", atributes1);
 
 		Map<String, Variable> atributesM = new HashMap<>();
 		atributesM.put("x", new Variable());
@@ -40,14 +41,16 @@ public class BoolInterpreter {
 		Method m1 = new Method("retorna", atributesM, bodyM);
 		List<Method> methods = List.of(m1);
 
-		Class c1 = new Class("Pessoa", atributes1);
-
 		Map<String, Variable> atributes2 = new HashMap<>();
 		atributes2.put("num", new Variable(100));
 		Class c2 = new Class("Num", atributes2, methods);
+		c2.setSelf();
 
 		classes.add(c1);
 		classes.add(c2);
+
+		System.out.println(c2);
+		System.out.println(c2.getMethods().getFirst().getSelf().getClasse());
 
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();

@@ -43,4 +43,11 @@ public class Class {
 	public void setMethods(List<Method> methods) {
 		this.methods = methods;
 	}
+
+	public void setSelf() {
+		for (var m : methods) {
+			m.setSelf(new Variable(this));
+		}
+	}
+
 }

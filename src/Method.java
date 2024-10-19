@@ -6,6 +6,7 @@ public class Method {
 	private List<String> params;
 	private Map<String, Variable> vars;
 	private List<String> body;
+	private Variable self = new Variable();
 
 	public Method(String name, Map<String, Variable> vars, List<String> body) {
 		this.name = name;
@@ -37,5 +38,13 @@ public class Method {
 
 	public void setBody(List<String> body) {
 		this.body = body;
+	}
+
+	public Variable getSelf() {
+		return self;
+	}
+
+	public void setSelf(Variable self) {
+		this.self = self;
 	}
 }
