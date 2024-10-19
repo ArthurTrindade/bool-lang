@@ -1,0 +1,344 @@
+// 0. return var
+return var
+
+// 1. return 10
+return 10
+
+// 1.1 return -10
+return -10
+
+// 2. var = 10
+var = 10
+
+// 2.1 var = -10
+var = -10
+
+// 3. var = numUm
+var = numUm
+
+// 4. var = obj.atr
+var = obj.atr
+
+// 5. obj.atr = 10
+obj.atr = 10
+
+// 5.1 obj.atr = -10
+obj.atr = -10
+
+// 6. obj.atr = numUm
+obj.atr = numUm
+
+// 7. obj.atr = obbj.attr
+obj.atr = obbj.attr
+
+// 8. obj._prototype = a
+obj._prototype = a
+
+// 9. var = numUm + numDois
+var = numUm + numDois
+
+// 10. var = numUm - numDois
+var = numUm - numDois
+
+// 11. var = numUm * numDois
+var = numUm * numDois
+
+// 12. var = numUm / numDois
+var = numUm / numDois
+
+// 13. a.obj = b + c
+a.obj = b + c
+
+// 14. var = new Pessoa
+var = new Pessoa
+
+// 15. a = obj.method()
+a = obj.method()
+
+// 16. a = obj.method(x)
+a = obj.method(x)
+
+// 17. a = obj.method(x, y, z)
+a = obj.method(x, y, z)
+
+// 18. a.atr = obj.method()
+a.atr = obj.method()
+
+// 19. a.atr = obj.method(x)
+a.atr = obj.method(x)
+
+// 20. a.atr = obj.method(x, y, z)
+a.atr = obj.method(x, y, z)
+
+// 21. obj.method()
+obj.method()
+
+// 22. obj.method(x)
+obj.method(x)
+
+// 23. obj.method(x, y, z)
+obj.method(x, y, z)
+
+// 24. if a gt b then
+//         a = 10
+//       	
+//         b = a
+//     end-if
+if a gt b then
+	a = 10
+	
+	b = a
+end-if
+
+// 24.1 if a gt b then
+//         a = -10
+//       	
+//         b = a
+//     end-if
+if a gt b then
+	a = -10
+	
+	b = a
+end-if
+
+// 25. if a ge b then
+//         a = 10
+//       	
+//         b = a
+//     end-if
+if a ge b then
+	a = 10
+	
+	b = a
+end-if
+
+// 25.1 if a ge b then
+//         a = -10
+//       	
+//         b = a
+//     end-if
+if a ge b then
+	a = -10
+	
+	b = a
+end-if
+
+// 26. if a lt b then
+//         a = 10
+//       	
+//         b = a
+//     end-if
+if a lt b then
+	a = 10
+	
+	b = a
+end-if
+
+// 26.1 if a lt b then
+//         a = -10
+//       	
+//         b = a
+//     end-if
+if a lt b then
+	a = -10
+	
+	b = a
+end-if
+
+// 27. if a le b then
+//         a = 10
+//       	
+//         b = a
+//     end-if
+if a le b then
+	a = 10
+	
+	b = a
+end-if
+
+// 27.1 if a le b then
+//         a = -10
+//       	
+//         b = a
+//     end-if
+if a le b then
+	a = -10
+	
+	b = a
+end-if
+
+// 28. if a eq b then
+//         a = 10
+//       	
+//         b = a
+//     end-if
+if a eq b then
+	a = 10
+	
+	b = a
+end-if
+
+// 28.1 if a eq b then
+//         a = -10
+//       	
+//         b = a
+//     end-if
+if a eq b then
+	a = -10
+	
+	b = a
+end-if
+
+// 29. if a ne b then
+//         a = 10
+//       	
+//         b = a
+//     end-if
+if a ne b then
+	a = 10
+	
+	b = a
+end-if
+
+// 29.1 if a ne b then
+//         a = -10
+//       	
+//         b = a
+//     end-if
+if a ne b then
+	a = -10
+	
+	b = a
+end-if
+
+// 30. if a gt b then
+//         c = b + a
+//     else
+//         c = 123
+//     end-if
+if a gt b then
+	c = b + a
+else
+	c = 123
+end-if
+
+// 30.1 if a gt b then
+//         c = b + a
+//     else
+//         c = -123
+//     end-if
+if a gt b then
+	c = b + a
+else
+	c = -123
+end-if
+
+// 31. if a ge b then
+//         c = b + a
+//     else
+//         c = 123
+//     end-if
+if a ge b then
+	c = b + a
+else
+	c = 123
+end-if
+
+// 31.1 if a ge b then
+//         c = b + a
+//     else
+//         c = -123
+//     end-if
+if a ge b then
+	c = b + a
+else
+	c = -123
+end-if
+
+// 32. if a lt b then
+//         c = b + a
+//     else
+//         c = 123
+//     end-if
+if a lt b then
+	c = b + a
+else
+	c = 123
+end-if
+
+// 32.1 if a lt b then
+//         c = b + a
+//     else
+//         c = -123
+//     end-if
+if a lt b then
+	c = b + a
+else
+	c = -123
+end-if
+
+// 33. if a le b then
+//         c = b + a
+//     else
+//         c = 123
+//     end-if
+if a le b then
+	c = b + a
+else
+	c = 123
+end-if
+
+// 33.1 if a le b then
+//         c = b + a
+//     else
+//         c = -123
+//     end-if
+if a le b then
+	c = b + a
+else
+	c = -123
+end-if
+
+// 34. if a eq b then
+//         c = b + a
+//     else
+//         c = 123
+//     end-if
+if a eq b then
+	c = b + a
+else
+	c = 123
+end-if
+
+// 34.1 if a eq b then
+//         c = b + a
+//     else
+//         c = -123
+//     end-if
+if a eq b then
+	c = b + a
+else
+	c = -123
+end-if
+
+// 35. if a ne b then
+//         c = b + a
+//     else
+//         c = 123
+//     end-if
+if a ne b then
+	c = b + a
+else
+	c = 123
+end-if
+
+// 35.1 if a ne b then
+//         c = b + a
+//     else
+//         c = -123
+//     end-if
+if a ne b then
+	c = b + a
+else
+	c = -123
+end-if

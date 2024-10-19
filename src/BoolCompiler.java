@@ -41,25 +41,25 @@ public class BoolCompiler {
 	
 	// Regexes
 	final static String[] regexes = {
-			"(\\s*)return\\s+([a-zA-Z]+)",                     									// 0. return
+			"(\\s*)return\\s+([a-zA-Z]+|-?[0-9]+)",                     						// 0. return a
 			
-			"(\\s*)([a-zA-Z]+)\\s+=\\s+([0-9]+)", 												// 1. atribuição a = 10
+			"(\\s*)([a-zA-Z]+)\\s+=\\s+(-?[0-9]+)",												// 1. atribuição a = 10
 			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)",                                            // 2. atribuição a = b
 			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.+([a-zA-Z]+)",                             // 3. atribuição a = b.obj
 			
-			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([0-9]+)",									// 4. atribuição a.obj = 10
+			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+(-?[0-9]+)",								// 4. atribuição a.obj = 10
 			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)",								// 5. atribuição a.obj = b
 			"(\\s*)([a-zA-Z]+)\\.(_prototype)\\s+=\\s+([a-zA-Z]+)",								// 6. prototype
 			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.+([a-zA-Z]+)",				// 7. atribuição a.obj = b.obj
 			
-			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\s+([+*/-])\\s+([a-zA-Z]+)", 				// 8. arirmetica a = b + c
-			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\s+([+*/-])\\s+([a-zA-Z]+)",	// 9. aritmetica a.obj = b + c
+			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\s+([+*/-])\\s+([a-zA-Z]+)", 				// 8. aritmética a = b + c
+			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\s+([+*/-])\\s+([a-zA-Z]+)",	// 9. aritmética a.obj = b + c
 			
 			"(\\s*)([a-zA-Z]+)\\s+=\\s+new\\s+([a-zA-Z]+)",										// 10. object creation
 			
-			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",					// 11. chamada de metodo a = obj.method() ou a = obj.method(x,y...)
-			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",	// 12. chamada de metodo a.obj = obj.method() ou a.obj = obj.method(x,y...)
-			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",										// 13. chamada de metodo obj.method() ou  obj.method(x,y...)
+			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",					// 11. chamada de método a = obj.method() ou a = obj.method(x,y...)
+			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",	// 12. chamada de método a.obj = obj.method() ou a.obj = obj.method(x,y...)
+			"(\\s*)([a-zA-Z]+)\\.([a-zA-Z]+)\\(([^)]*)\\)",										// 13. chamada de método obj.method() ou  obj.method(x,y...)
 			
 			"(\\s*)if\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+then",					// 14. if
 		
@@ -79,7 +79,6 @@ public class BoolCompiler {
 			if (!matcher.matches()) { continue; }
 			matched = true;
 			
-			// return
 			if (i == 0) { // return
 				str.add(matcher.group(1) + "load " + matcher.group(2));
 				str.add(matcher.group(1) + "ret");
@@ -133,7 +132,7 @@ public class BoolCompiler {
 			if ( i == 7) { //atribuição a.obj = b.obj {
 				
 				str.add(matcher.group(1) + "load " + matcher.group(4));
-				str.add(matcher.group(1) + "get " + matcher.group(4));
+				str.add(matcher.group(1) + "get " + matcher.group(5));
 				str.add(matcher.group(1) + "load " + matcher.group(2));
 				str.add(matcher.group(1) + "set " + matcher.group(3));
 				
