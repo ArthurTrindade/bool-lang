@@ -20,10 +20,6 @@ public class BoolInterpreter {
 		stack = new Stack<>();
 	}
 
-	private static void setClasses() {
-		classes = new ArrayList<>();
-	}
-
 	public static void main(String[] args) throws IOException {
 		if (args.length != 0) {
 			run(args[0]);
@@ -34,14 +30,24 @@ public class BoolInterpreter {
 		setScanner(sourceName);
 		setStack();
 
-		Map<String, Variable> atributes = new HashMap<>();
+		Map<String, Variable> atributes1 = new HashMap<>();
+		atributes1.put("id", new Variable());
+		atributes1.put("idade", new Variable(20));
 
-		atributes.put("id", new Variable(10));
-		atributes.put("idade", new Variable(20));
+		Map<String, Variable> atributesM = new HashMap<>();
+		atributesM.put("x", new Variable());
+		List<String> bodyM = List.of("const 20", "ret");
+		Method m1 = new Method("retorna", atributesM, bodyM);
+		List<Method> methods = List.of(m1);
 
-		Class c = new Class("Pessoa", atributes);
+		Class c1 = new Class("Pessoa", atributes1);
 
-		classes.add(c);
+		Map<String, Variable> atributes2 = new HashMap<>();
+		atributes2.put("num", new Variable(100));
+		Class c2 = new Class("Num", atributes2, methods);
+
+		classes.add(c1);
+		classes.add(c2);
 
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
@@ -58,6 +64,12 @@ public class BoolInterpreter {
 		System.out.println("p.id: " + mainMethod.getVariable("p").getClasse().getVars().get("id").getValue());
 		System.out.println("a.id: " + mainMethod.getVariable("a").getClasse().getVars().get("id").getValue());
 
+		System.out.println("p.idade: " + mainMethod.getVariable("p").getClasse().getVars().get("idade").getValue());
+		System.out.println("a.idade: " + mainMethod.getVariable("a").getClasse().getVars().get("idade").getValue());
+
+		System.out.println("n.num: " + mainMethod.getVariable("n").getClasse().getVars().get("num").getValue());
+
+		System.out.println("b: " + mainMethod.getVariable("m").getValue());
 
 		sc.close();
 	}
@@ -76,7 +88,8 @@ public class BoolInterpreter {
 			"\\s*(gt|ge|lt|le|eq|ne)",						// 5. comparações
 			"\\s*if\\s+([0-9]+)",							// 6. if
 			"\\s*else\\s+([0-9]+)",							// 7. else
-			"\\s*new\\s*([a-zA-Z]+)"                        // 8. new <name>
+			"\\s*new\\s*([a-zA-Z]+)",                       // 8. new <name>
+			"\\s*call\\s*([a-zA-Z]+)"						// 9. call <name>
 	};
 
 	public static void interpret(String line) {
@@ -142,10 +155,15 @@ public class BoolInterpreter {
 					interpretNew(matcher.group(1));
 					matched = true;
 					break;
+
+				case 9:
+					interpretCall(matcher.group(1));
+					matched = true;
+					break;
 				default:
 					break;
 			}
-			
+
 			if (matched) { break; }
 		}
 	}
@@ -240,9 +258,27 @@ public class BoolInterpreter {
 	}
 
 	public static void interpretNew(String name) {
-		Class c = classes.getFirst();
-		Variable variable = new Variable(c);
-		stack.push(variable);
+		Class newClass = new Class();
+		for (var c : classes) {
+			if (c.getName().equals(name.trim())) {
+				newClass = c;
+			}
+		}
+		stack.push(new Variable(newClass));
+	}
+
+	public static void interpretCall(String name) {
+		Variable v = stack.pop();
+		List<Method> methods = v.getClasse().getMethods();
+
+		for (var m : methods) {
+			if (m.getName().equals(name.trim())) {
+				List<String> lines = m.getBody();
+				for (var line : lines) {
+					interpret(line);
+				}
+			}
+		}
 	}
 }
 
@@ -256,16 +292,6 @@ class MainMethod {
 	}
 	
 	public void updateVariable(String name, Variable variable) {
-//		Pattern pattern = Pattern.compile("[a-zA-Z]+");
-//		Matcher matcher = pattern.matcher(pop);
-//		Variable v = new Variable();
-//		 name
-//		if (matcher.matches()) {
-//			v = getVariable(pop);
-//		}
-//
-//		v.setValue(Integer.parseInt(pop));
-
 		vars.put(name, variable);
 	}
 	
@@ -274,86 +300,3 @@ class MainMethod {
 	}
 }
 
-class Class {
-	private String name;
-	private Map<String, Variable> vars;
-	private List<Method> methods;
-
-	public Class() {
-	}
-
-	public Class(String name, Map<String, Variable> vars) {
-		this.name = name;
-		this.vars = vars;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Map<String, Variable> getVars() {
-		return vars;
-	}
-
-	public void setVars(Map<String, Variable> vars) {
-		this.vars = vars;
-	}
-}
-
-class Method {
-	private String name;
-	private List<String> params;
-	private List<String> vars;
-	
-	private List<String> body;
-	public Method() {
-	}
-}
-
-class Variable {
-	private int value = 0;
-	private boolean condition;
-	private Class classe;
-
-	public Variable() {}
-
-	public Variable(Class classe) {
-		this.classe = classe;
-	}
-
-	public Variable(int value) {
-		this.value = value;
-	}
-
-	public Variable(boolean condition) {
-		this.condition = condition;
-	}
-
-	public void setClasse(Class classe) {
-		this.classe = classe;
-	}
-
-	public void setValue(int value) {
-		this.value = value;
-	}
-
-	public Class getClasse() {
-		return classe;
-	}
-
-	public int getValue() {
-		return value;
-	}
-
-	public boolean getCondition() {
-		return condition;
-	}
-
-	public void setCondition(boolean condition) {
-		this.condition = condition;
-	}
-}

@@ -1,5 +1,5 @@
 main()
-vars numUm, numDois, numTres, p, a
+vars numUm, numDois, numTres, p, n, m
 begin
 	const 40
 	store numUm
@@ -20,9 +20,14 @@ begin
 		sub
 		store numTres
 
-	new Person
-    store p
+	 new Pessoa
+	 store p
+	 load p
+	 store a
 
-    load p
-    store a
+	 new Num
+	 store n
+     load n
+     call retorna
+     store m
 end

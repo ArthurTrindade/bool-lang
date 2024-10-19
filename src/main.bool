@@ -1,5 +1,5 @@
 main()
-vars numUm, numDois, numTres, p
+vars numUm, numDois, numTres, p, n, m
 begin
 	numUm = 40
 	numDois = 20
@@ -12,4 +12,7 @@ begin
 
 	 p = new Pessoa
 	 a = p
+
+	 n = new Num
+     b = n.retorna()
 end
