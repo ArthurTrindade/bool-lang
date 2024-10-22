@@ -32,11 +32,11 @@ begin
 	store p
 	new Pessoa
 	store a
-	
+
 	const 15
 	load p
 	set id
-	
+
 	load p
 	get id
 	load a

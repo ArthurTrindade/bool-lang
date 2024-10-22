@@ -71,6 +71,15 @@ public class BoolInterpreter {
 		System.out.println("a.id: " + mainMethod.getVariable("a").getClasse().getVars().get("id").getValue());
 		System.out.println("a.idade: " + mainMethod.getVariable("a").getClasse().getVars().get("idade").getValue());
 
+		System.out.println("endereço p:" + mainMethod.getVariable("p"));
+		System.out.println("endereço a:" + mainMethod.getVariable("a"));
+
+		System.out.println("endereço p class:" + mainMethod.getVariable("p").getClasse());
+		System.out.println("endereço a class:" + mainMethod.getVariable("a").getClasse());
+
+		System.out.println("endereço p vars:" + mainMethod.getVariable("p").getClasse().getVars());
+		System.out.println("endereço a vars:" + mainMethod.getVariable("a").getClasse().getVars());
+
 //		System.out.println("n.num: " + mainMethod.getVariable("n").getClasse().getVars().get("num").getValue());
 //
 //		System.out.println("b: " + mainMethod.getVariable("m").getValue());
@@ -289,11 +298,20 @@ public class BoolInterpreter {
 
 	public static void interpretNew(String name) {
 		Class newClass = new Class();
+		Class classObj = new Class();
+
 		for (var c : classes) {
 			if (c.getName().equals(name.trim())) {
-				newClass = c;
+				classObj = c;
 			}
 		}
+
+        Map<String, Variable> newVars = new HashMap<>(classObj.getVars());
+
+		newClass.setName(classObj.getName());
+		newClass.setVars(newVars);
+		newClass.setMethods(classObj.getMethods());
+
 		stack.push(new Variable(newClass));
 	}
 
@@ -326,8 +344,13 @@ public class BoolInterpreter {
 	public static void interpretSet(String name) {
 		Variable obj = stack.pop();
 		Variable value = stack.pop();
-		
-		obj.getClasse().getVars().put(name, value);
+
+		Variable newVariable = new Variable();
+		newVariable.setClasse(value.getClasse());
+		newVariable.setValue(value.getValue());
+		newVariable.setCondition(value.getCondition());
+
+		obj.getClasse().getVars().put(name, newVariable);
 	}
 	
 	public static void interpretGet(String name) {
