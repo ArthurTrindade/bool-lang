@@ -1,5 +1,13 @@
+class Pessoa
+	vars id, idade
+end-class
+
+class Animal
+	vars qtdDedos, idade
+end-class
+
 main()
-vars numUm, numDois, numTres, p, n, m
+vars numUm, numDois, numTres, p, a
 begin
 	const 40
 	store numUm
@@ -20,18 +28,21 @@ begin
 		sub
 		store numTres
 
-	 new Pessoa
-	 store p
-	 load p
-	 store a
-
-	 new Num
-	 store n
-     load n
-     call retorna
-     store b
-
-     const 10
-     load self
-     set id
+	new Pessoa
+	store p
+	new Pessoa
+	store a
+	
+	const 15
+	load p
+	set id
+	
+	load p
+	get id
+	load a
+	set id
+	
+	const 20
+	load p
+	set id
 end

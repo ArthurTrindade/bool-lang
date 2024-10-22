@@ -8,6 +8,10 @@ public class Class {
 
 	public Class() {
 	}
+	
+	public Class(String name) {
+		this.name = name;
+	}
 
 	public Class(String name, Map<String, Variable> vars) {
 		this.name = name;

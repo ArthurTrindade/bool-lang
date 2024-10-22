@@ -1,5 +1,13 @@
+class Pessoa
+	vars id, idade
+end-class
+
+class Animal
+	vars qtdDedos, idade
+end-class
+
 main()
-vars numUm, numDois, numTres, p, n, m
+vars numUm, numDois, numTres, p, a
 begin
 	numUm = 40
 	numDois = 20
@@ -10,11 +18,12 @@ begin
 		numTres = numUm - numDois
 	end-if
 
-	 p = new Pessoa
-	 a = p
-
-	 n = new Num
-     b = n.retorna()
-
-     self.id = 10
+	p = new Pessoa
+	a = new Pessoa
+	
+	p.id = 15
+	
+	a.id = p.id
+	
+	p.id = 20
 end
