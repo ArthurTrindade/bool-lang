@@ -8,6 +8,15 @@ public class Method {
 	private List<String> body;
 	private Variable self = new Variable();
 
+	public Method(String name) {
+		this.name = name;
+	}
+
+	public Method(String name, Map<String, Variable> vars) {
+		this.name = name;
+		this.vars = vars;
+	}
+
 	public Method(String name, Map<String, Variable> vars, List<String> body) {
 		this.name = name;
 		this.vars = vars;
@@ -46,5 +55,9 @@ public class Method {
 
 	public void setSelf(Variable self) {
 		this.self = self;
+	}
+
+	public void setParams(List<String> params) {
+		this.params = params;
 	}
 }

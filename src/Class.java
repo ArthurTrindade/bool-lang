@@ -54,4 +54,8 @@ public class Class {
 		}
 	}
 
+	public void addMethod(Method method) {
+		methods.add(method);
+	}
+
 }

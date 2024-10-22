@@ -4,12 +4,10 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class BoolInterpreter {
 	public static Stack<Variable> stack;
 	private static Scanner sc;
-	@SuppressWarnings("FieldMayBeFinal")
-	private static List<Class> classes = new ArrayList<>();
+	private static final List<Class> classes = new ArrayList<>();
 
 	static MainMethod mainMethod = new MainMethod();
 
@@ -31,33 +29,11 @@ public class BoolInterpreter {
 		setScanner(sourceName);
 		setStack();
 
-//		Map<String, Variable> atributes1 = new HashMap<>();
-//		atributes1.put("id", new Variable());
-//		atributes1.put("idade", new Variable(20));
-//		Class c1 = new Class("Pessoa", atributes1);
-		
 		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
 			interpret(line, "main");
 		}
 
-//		Map<String, Variable> atributesM = new HashMap<>();
-//		atributesM.put("x", new Variable());
-//		List<String> bodyM = List.of("const 20", "ret");
-//		Method m1 = new Method("retorna", atributesM, bodyM);
-//		List<Method> methods = List.of(m1);
-//
-//		Map<String, Variable> atributes2 = new HashMap<>();
-//		atributes2.put("num", new Variable(100));
-//		Class c2 = new Class("Num", atributes2, methods);
-//		c2.setSelf();
-
-//		classes.add(c1);
-//		classes.add(c2);
-
-//		System.out.println(c2);
-//		System.out.println(c2.getMethods().getFirst().getSelf().getClasse());
-		
 		System.out.println("Valores das variáveis:");
 		System.out.println("numUm: " + mainMethod.getVariable("numUm").getValue());
 		System.out.println("numDois: " + mainMethod.getVariable("numDois").getValue());
@@ -80,9 +56,12 @@ public class BoolInterpreter {
 		System.out.println("endereço p vars:" + mainMethod.getVariable("p").getClasse().getVars());
 		System.out.println("endereço a vars:" + mainMethod.getVariable("a").getClasse().getVars());
 
-//		System.out.println("n.num: " + mainMethod.getVariable("n").getClasse().getVars().get("num").getValue());
-//
-//		System.out.println("b: " + mainMethod.getVariable("m").getValue());
+		System.out.println("p.id: " + mainMethod.getVariable("p").getClasse().getVars().get("id").getValue());
+		System.out.println("p.idade: " + mainMethod.getVariable("p").getClasse().getVars().get("idade").getValue());
+
+		System.out.println("a.id: " + mainMethod.getVariable("a").getClasse().getVars().get("id").getValue());
+		System.out.println("a.idade: " + mainMethod.getVariable("a").getClasse().getVars().get("idade").getValue());
+
 
 		sc.close();
 	}
@@ -96,7 +75,7 @@ public class BoolInterpreter {
 			
 			"\\s*store\\s*([a-zA-Z]+)",						// 3. store var
 			
-			"\\s*vars\\s+([a-zA-Z]+(?:,? ?[a-zA-Z]+)*)",	// 4. vars varUm, varDois
+			"\\s*vars\\s+([a-zA-Z]+(?:,? +[a-zA-Z]+)*)",	// 4. vars varUm, varDois
 			
 			"\\s*(gt|ge|lt|le|eq|ne)",						// 5. comparações
 			"\\s*if\\s+([0-9]+)",							// 6. if
@@ -109,6 +88,8 @@ public class BoolInterpreter {
 			"\\s*class\\s+([a-zA-Z]+)",						// 10. class <name>
 			"\\s*set\\s+([a-zA-Z]+)",						// 11. set <name>
 			"\\s*get\\s+([a-zA-Z]+)",						// 12. get <name>
+			"\\s*(pop)",									// 13. pop
+			"\\s*method\\s+([a-zA-Z]+\\(\\s*[a-zA-Z]+(?:,? +[a-zA-Z]+)*)\\)"
 	};
 
 	public static void interpret(String line, String scope) {
@@ -190,6 +171,16 @@ public class BoolInterpreter {
 				
 				case 12:
 					interpretGet(matcher.group(1));
+					break;
+
+				case 13:
+					interpretPop(matcher.group(1));
+					matched = true;
+					break;
+
+				case 14:
+					interpretMethod(matcher.group(1), scope);
+					matched = true;
 					break;
 				
 				default:
@@ -358,7 +349,42 @@ public class BoolInterpreter {
 		
 		stack.push(obj.getClasse().getVars().get(name));
 	}
-	
+
+	public static void interpretPop(String name) {
+		stack.pop();
+	}
+
+	public  static void interpretMethod(String names, String scope) {
+
+		String[] half = names.split("\\(");
+		String name = half[0];
+		String[] varsList = half[1].split("\\s*,\\s+");
+		List<String> body = new ArrayList<>();
+
+		Map<String, Variable> vars = new HashMap<>();
+		for (String var : varsList) {
+			vars.put(var, new Variable());
+		}
+
+		String line = sc.nextLine();
+		while (!line.matches("\\s*end-method\\s*")) {
+			body.add(line);
+			line = sc.nextLine();
+		}
+
+		Method newMethod = new Method(name, vars, body);
+
+		Class c = classes.get(Integer.parseInt(scope));
+		c.addMethod(newMethod);
+
+	}
+
+	public static void createIO() {
+		Class ioObj = new Class("io");
+		List<String> printBody = new ArrayList<>();
+
+	}
+
 }
 
 class MainMethod {

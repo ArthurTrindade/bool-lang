@@ -1,5 +1,10 @@
 class Pessoa
 	vars id, idade
+
+	method retorna(x)
+	begin
+	    return x
+	end-method
 end-class
 
 class Animal
@@ -19,11 +24,7 @@ begin
 	end-if
 
 	p = new Pessoa
-	a = new Pessoa
-	
-	p.id = 15
-	
-	a.id = p.id
-	
-	p.id = 20
+
+	a = p.retorna(numTres)
+
 end

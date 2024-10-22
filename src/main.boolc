@@ -1,5 +1,11 @@
 class Pessoa
 	vars id, idade
+
+	method retorna(x)
+	begin
+	    load x
+	    ret
+	end-method
 end-class
 
 class Animal
@@ -30,19 +36,10 @@ begin
 
 	new Pessoa
 	store p
-	new Pessoa
+
+	load numTres
+	load p
+	call retorna
 	store a
 
-	const 15
-	load p
-	set id
-
-	load p
-	get id
-	load a
-	set id
-	
-	const 20
-	load p
-	set id
 end
