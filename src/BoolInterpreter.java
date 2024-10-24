@@ -1,3 +1,6 @@
+import interpreter.Method;
+import interpreter.Variable;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -7,7 +10,7 @@ import java.util.regex.Pattern;
 public class BoolInterpreter {
 	public static Stack<Variable> stack;
 	private static Scanner sc;
-	private static final List<Class> classes = new ArrayList<>();
+	private static  final List<interpreter.Class> classes = new ArrayList<>();
 
 	static MainMethod mainMethod = new MainMethod();
 
@@ -292,8 +295,9 @@ public class BoolInterpreter {
 	}
 
 	public static void interpretNew(String name) {
-		Class newClass = new Class();
-		Class classObj = new Class();
+		//Class newClass = new Class();
+		interpreter.Class newClass = new interpreter.Class();
+		interpreter.Class classObj = new interpreter.Class();
 
 		for (var c : classes) {
 			if (c.getName().equals(name.trim())) {
@@ -325,7 +329,7 @@ public class BoolInterpreter {
 	}
 	
 	public static void interpretClass(String name) {
-		Class newClass = new Class(name);
+		interpreter.Class newClass = new interpreter.Class(name);
 		int pos = classes.size();
 		classes.add(newClass);
 		
@@ -378,13 +382,13 @@ public class BoolInterpreter {
 
 		Method newMethod = new Method(name, vars, body);
 
-		Class c = classes.get(Integer.parseInt(scope));
+		interpreter.Class c = classes.get(Integer.parseInt(scope));
 		c.addMethod(newMethod);
 
 	}
 
 	public static void createIO() {
-		Class ioObj = new Class("io");
+		interpreter.Class ioObj = new interpreter.Class("io");
 		List<String> printBody = new ArrayList<>();
 
 	}

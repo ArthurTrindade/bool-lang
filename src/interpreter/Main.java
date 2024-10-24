@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        List<String> codes = Files.readAllLines(Paths.get("test2.boolc"));
+        List<String> codes = Files.readAllLines(Paths.get("src/interpreter/test2.boolc"));
 
         Program program = new Program();
         program.init(codes);

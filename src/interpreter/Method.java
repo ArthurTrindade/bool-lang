@@ -21,6 +21,12 @@ public class Method {
     public Method() {
     }
 
+    public Method(String name, Map<String, Variable> vars, List<String> body) {
+        this.name = name;
+        this.vars = vars;
+        this.body = body;
+    }
+
 
     public void updatePc(int num) {
         this.pc = this.pc + num;
