@@ -24,7 +24,6 @@ begin
 	end-if
 
 	p = new Pessoa
-
 	a = p.retorna(numTres)
 
 end

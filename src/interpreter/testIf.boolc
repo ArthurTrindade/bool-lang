@@ -1,0 +1,55 @@
+class Pessoa
+	vars id, idade
+
+	method retorna(x)
+	begin
+	    load x
+	    ret
+	end-method
+end-class
+
+class Animal
+	vars qtdDedos, idade
+end-class
+
+main()
+vars numUm, numDois, numTres, p, a
+begin
+	const 40
+	store numUm
+	const 20
+	store numDois
+	
+	load numUm
+	load numDois
+	lt
+	if 8
+		load numUm
+		load numDois
+		add
+		store numTres
+
+        load numUm
+        load numDois
+        mul
+        store numTres
+	else 8
+		load numUm
+		load numDois
+		sub
+		store numTres
+
+        load numUm
+        load numDois
+        div
+        store numTres
+
+	new Pessoa
+	store p
+
+	load numTres
+	load p
+	call retorna
+	store a
+
+end

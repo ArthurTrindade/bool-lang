@@ -222,7 +222,7 @@ public class BoolInterpreter {
 	}
 	
 	public static void interpretVars(String names, String scope) {
-		String[] namesList = names.split("\\s*,\\s+");
+		String[] namesList = names.split(getRegex());
 		
 		Map<String, Variable> vars = new HashMap<>();
 		for (String name : namesList) {
@@ -235,7 +235,11 @@ public class BoolInterpreter {
 			classes.get(Integer.parseInt(scope)).setVars(vars);
 		}
 	}
-	
+
+	private static String getRegex() {
+		return "\\s*,\\s+";
+	}
+
 	public static void interpretLogic(String op) {
 		int v2 = stack.pop().getValue();
 		int v1 = stack.pop().getValue();

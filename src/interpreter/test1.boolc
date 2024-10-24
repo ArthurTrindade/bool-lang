@@ -1,0 +1,55 @@
+class Base
+  vars id
+  method retornaUm()
+   vars a
+   begin
+      const 1
+      store a
+      load a
+      ret
+   end-method
+
+   method soma(x, y)
+   vars res
+   begin
+    load x
+    load y
+    add
+    store res
+    load res
+    ret
+   end-method
+end-class
+
+class Pessoa
+  vars id
+  method showiddd()
+   vars x, y, z
+   begin
+     self.id = 10
+     x = self.id
+     
+   end-method
+end-class
+
+main()
+  vars b, x
+  begin
+  
+  new Base
+  store b
+
+  const 30
+  load b
+  set id  
+
+  load b
+  store x
+
+  new Pessoa
+  store b
+
+  const 10
+  store x
+
+end
