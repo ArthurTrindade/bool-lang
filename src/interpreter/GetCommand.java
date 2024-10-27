@@ -4,11 +4,10 @@ package interpreter;
 import java.util.Map;
 
 public class GetCommand extends Command {
-
     private Map<String, Variable> vars;
 
-    public GetCommand(Program m) {
-        super(m);
+    public GetCommand(Program p) {
+        super(p);
     }
 
     public void execute() {

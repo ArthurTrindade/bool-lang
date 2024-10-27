@@ -1,10 +1,8 @@
 package interpreter;
 
 public class IfCommand extends Command {
-
-    public IfCommand(Program program) {
-        super(program);
-
+    public IfCommand(Program p) {
+        super(p);
     }
 
     @Override

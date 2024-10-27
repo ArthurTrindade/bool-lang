@@ -1,8 +1,8 @@
 package interpreter;
 
 public class RetCommand extends Command {
-    public RetCommand(Program m) {
-        super(m);
+    public RetCommand(Program p) {
+        super(p);
     }
 
     public void execute() {

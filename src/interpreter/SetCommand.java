@@ -1,9 +1,8 @@
 package interpreter;
 
 public class SetCommand extends Command {
-
-    public SetCommand(Program m) {
-        super(m);
+    public SetCommand(Program p) {
+        super(p);
     }
 
     public void execute() {

@@ -1,9 +1,8 @@
 package interpreter;
 
 public class CompareCommand extends Command {
-
-    public CompareCommand(Program program) {
-        super(program);
+    public CompareCommand(Program p) {
+        super(p);
     }
 
     @Override

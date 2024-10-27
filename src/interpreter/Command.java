@@ -4,7 +4,6 @@ package interpreter;
 import java.util.regex.Matcher;
 
 public abstract class Command {
-
     Program program;
     Matcher matcher;
 

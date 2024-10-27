@@ -2,13 +2,12 @@ package interpreter;
 
 
 class ConstCommand extends Command {
-
-    public ConstCommand(Program m) {
-        super(m);
-    }
-
-    public void execute() {
-        Variable v = new Variable(Integer.parseInt(matcher.group(1).trim()));
-        program.getStack().push(v);
-    }
+	public ConstCommand(Program p) {
+		super(p);
+	}
+	
+	public void execute() {
+		Variable v = new Variable(Integer.parseInt(matcher.group(1).trim()));
+		program.addVariableInStack(v);
+	}
 }

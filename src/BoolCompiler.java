@@ -41,7 +41,7 @@ public class BoolCompiler {
 	
 	// Regexes
 	final static String[] regexes = {
-			"(\\s*)return\\s+([a-zA-Z]+|-?[0-9]+)",                     						// 0. return a
+			"(\\s*)return\\s+([a-zA-Z]+)",                     									// 0. return a
 			
 			"(\\s*)([a-zA-Z]+)\\s+=\\s+(-?[0-9]+)",												// 1. atribuição a = 10
 			"(\\s*)([a-zA-Z]+)\\s+=\\s+([a-zA-Z]+)",                                            // 2. atribuição a = b

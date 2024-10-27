@@ -1,22 +1,23 @@
 class Io
-  vars n
-  method print(x)
-    vars zero
-    begin
-      load x 
-      sout
-      load zero
-      ret
-  end-method
+	vars n
+	
+	method print(x)
+	vars zero
+	begin
+		load x 
+		sout
+		load zero
+		ret
+	end-method
 
-  method read()
-    vars input
-    begin 
-      sin
-      store input
-      load input
-      ret
-  end-method
+	method read()
+	vars input
+	begin 
+		sin
+		store input
+		load input
+		ret
+	end-method
 end-class
 
 class Base

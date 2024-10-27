@@ -45,7 +45,7 @@ main()
     new Fat
     store f
 
-    const 30
+    const 12
     store n
 
     load n

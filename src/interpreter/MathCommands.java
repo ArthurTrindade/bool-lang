@@ -2,9 +2,8 @@ package interpreter;
 
 
 public class MathCommands extends Command {
-
-    public MathCommands(Program program) {
-        super(program);
+    public MathCommands(Program p) {
+        super(p);
     }
 
     public void execute() {

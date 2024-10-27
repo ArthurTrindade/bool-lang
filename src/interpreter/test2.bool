@@ -1,0 +1,72 @@
+class Io
+	vars n
+	
+	method print(x)
+	vars zero
+	begin
+		load x
+		sout
+		return zero
+	end-method
+	
+	method read()
+	vars input
+	begin
+		sin
+		store input
+		return input
+	end-method
+end-class
+
+class Base
+	vars num
+	
+	method retornaUm()
+	vars a
+	begin
+		a = 1
+		return a
+	end-method
+	
+	method soma(x, y)
+	vars a, b, r, s, io
+	begin
+		io = new Io
+		
+		a = io.read()
+		
+		b = io.read()
+		
+		r = x + y
+		
+		s = a + b
+		
+		io.print(r)
+		
+		io.print(s)
+		
+		return r
+	end-method
+end-class
+
+main()
+vars a, b, c, x, y, io
+begin
+	io = new Io
+	
+	b = new Base
+	
+	x = 10
+	
+	a = 20
+	
+	io.print(x)
+	
+	io.print(a)
+	
+	y = b.soma(a, x)
+	
+	io.print(y)
+	
+	c = io.read()
+end

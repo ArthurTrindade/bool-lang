@@ -2,9 +2,8 @@ package interpreter;
 
 
 public class ElseCommand extends Command {
-
-    public ElseCommand(Program program) {
-        super(program);
+    public ElseCommand(Program p) {
+        super(p);
     }
 
     @Override

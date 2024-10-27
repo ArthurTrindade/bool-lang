@@ -4,10 +4,8 @@ package interpreter;
 import java.util.Scanner;
 
 public class IoCommand extends Command {
-
-    public IoCommand(Program program) {
-        super(program);
-
+    public IoCommand(Program p) {
+        super(p);
     }
 
     @Override
