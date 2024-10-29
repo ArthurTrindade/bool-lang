@@ -8,7 +8,6 @@ public class Variable {
     private boolean condition;
     private Class classe = new Class();
     private String color = "gray";
-    private List<Variable> refs = new ArrayList<Variable>();
 
     public Variable() {
     }

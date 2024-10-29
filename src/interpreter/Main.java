@@ -11,7 +11,7 @@ public class Main {
 	static Map<String, Command> commands = new HashMap<>();
 	
 	public static void main(String[] args) throws IOException {
-		List<String> codes = Files.readAllLines(Paths.get("bool-lang/src/interpreter/testFat.boolc"));
+		List<String> codes = Files.readAllLines(Paths.get("bool-lang/src/interpreter/test3.boolc"));
 		
 		Program program = new Program();
 		program.init(codes);
