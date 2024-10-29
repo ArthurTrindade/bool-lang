@@ -1,0 +1,9 @@
+main()
+vars a, b, c, x
+begin
+ a = new Base
+ x = a.num
+ b = 1023
+ c = b * x
+ io.print(c)
+end

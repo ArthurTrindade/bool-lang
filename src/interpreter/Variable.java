@@ -7,7 +7,7 @@ public class Variable {
     private int value = 0;
     private boolean condition;
     private Class classe = new Class();
-    private String color;
+    private String color = "gray";
     private List<Variable> refs = new ArrayList<Variable>();
 
     public Variable() {
@@ -50,4 +50,9 @@ public class Variable {
     public void setCondition(boolean condition) {
         this.condition = condition;
     }
+
+    public String getColor() {return color; }
+
+    public void setColor(String color) { this.color = color; }
+
 }

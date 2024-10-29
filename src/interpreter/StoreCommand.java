@@ -10,9 +10,9 @@ public class StoreCommand extends Command {
 	public void execute() {
 		Map<String, Variable> vars = program.getCurrentMethod().getVars();
 		Variable v = program.getStack().pop();
+		vars.put(matcher.group(1), v);
 		System.out.print(matcher.group(1) + ": " + v);
 		System.out.print("\n");
 		program.addVariableInMemory(v);
-		vars.put(matcher.group(1), v);
 	}
 }

@@ -11,10 +11,12 @@ public class Main {
 	static Map<String, Command> commands = new HashMap<>();
 	
 	public static void main(String[] args) throws IOException {
-		List<String> codes = Files.readAllLines(Paths.get("src/interpreter/test2.boolc"));
+		List<String> codes = Files.readAllLines(Paths.get("bool-lang/src/interpreter/testFat.boolc"));
 		
 		Program program = new Program();
 		program.init(codes);
+
+		GarbageCollector garbage = new GarbageCollector(program);
 		
 		commands.put("\\s*const\\s*(-?[0-9]+)", new ConstCommand(program));
 		commands.put("\\s*store\\s*([a-zA-Z]+)", new StoreCommand(program));
@@ -38,20 +40,26 @@ public class Main {
 			String line = currentMethod.getBody().get(currentPc);
 			getCommand(line).execute();
 			currentMethod.updatePc(1);
-			//CollectionCheck();
+			garbage.CollectionCheck();
 		}
 		
 		for (var key : program.getCurrentMethod().getVars().keySet()) {
 			System.out.println(key + ": " + program.getCurrentMethod().getVars().get(key).getValue());
 		}
 
-		Systen.out.println("\n");
+		System.out.println("\n");
 
 		Variable aux;
 		for (var key : program.getMemory() ) {
 			aux = key;
+			if (aux.getClasse() != null && aux.getClasse().getVars() != null ){
+				for (var var2 : aux.getClasse().getVars().keySet() ){
+					System.out.print(var2);
+				}
+			}
 			System.out.println(aux.getClasse().getName());
 			System.out.println(aux.getValue());
+			System.out.println(aux.getColor());
 		}
 	}
 	

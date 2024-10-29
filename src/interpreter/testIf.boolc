@@ -2,15 +2,13 @@ class Pessoa
 	vars id, idade
 
 	method retorna(x)
+	vars
 	begin
 	    load x
 	    ret
 	end-method
 end-class
 
-class Animal
-	vars qtdDedos, idade
-end-class
 
 main()
 vars numUm, numDois, numTres, p, a

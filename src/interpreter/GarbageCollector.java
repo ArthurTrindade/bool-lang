@@ -20,23 +20,59 @@ public class GarbageCollector {
     }
 
     private void Collect() {
-        // Fase de marcação
-        //marcar();
+        Mark();
 
-        // Fase de coleta
-        //coletarNaoMarcados();
+        program.getMemory().removeIf(var -> shouldBeCollected(var)); // Replace with your condition
+
 
         // Alterna a cor para a próxima coleta
         color = color.equals("red") ? "black" : "red";
     }
 
-    private void Mark () {
-        for (var key : program.getCurrentMethod().getVars().keySet()) {
-            System.out.println(key + ": " + program.getCurrentMethod().getVars().get(key).getValue());
-           // if
+    private void Mark() {
+
+        for (Variable aux : program.getStack()) {
+            if (aux != null) {
+                MarkVariable(aux);
+            }
+        }
+
+        //variáveis do metodo atual?? todos metodos???
+        for (var entry : program.getCurrentMethod().getVars().entrySet()) {
+            Variable aux = entry.getValue();
+            if (aux != null) {
+                MarkVariable(aux);
+            }
+        }
+
+        for (interpreter.Class classe : program.getClasses())
+            for (var entry : classe.getVars().entrySet()) {
+                Variable aux = entry.getValue();
+                if (aux != null) {
+                    MarkVariable(aux);
+                }
+            }
+
+    }
+
+    private void MarkVariable(Variable var) {
+        if (var.getClasse() != null && var.getClasse().getVars() != null) {
+            for (var entry : var.getClasse().getVars().entrySet()) {
+                Variable aux = entry.getValue();
+                if (aux != null) {
+                    MarkVariable(aux);
+                }
+            }
+        }
+
+        if (!var.getColor().equals(color)) {
+            var.setColor(color);
         }
     }
 
+    private boolean shouldBeCollected(Variable var) {
+        return !var.getColor().equals(color);  // Returns true if `var` is unmarked
+    }
 
 }
 
