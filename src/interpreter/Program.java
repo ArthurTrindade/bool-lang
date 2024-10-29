@@ -69,7 +69,8 @@ public class Program {
 	}
 	
 	public void addVariableInMemory(Variable v) {
-		this.memory.add(v);
+		if (this.memory.contains(v)) {}
+		else this.memory.add(v);
 	}
 	
 	public Stack<Variable> getStack() {

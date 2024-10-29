@@ -1,19 +1,26 @@
 package interpreter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Variable {
     private int value = 0;
     private boolean condition;
     private Class classe = new Class();
+    private String color;
+    private List<Variable> refs = new ArrayList<Variable>();
 
     public Variable() {
     }
 
     public Variable(Class classe) {
         this.classe = classe;
+        color = "gray";
     }
 
     public Variable(int value) {
         this.value = value;
+        color = "gray";
     }
 
     public Variable(boolean condition) {

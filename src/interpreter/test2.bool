@@ -59,6 +59,12 @@ begin
 	x = 10
 	
 	a = 20
+
+	c = b
+
+	c = x
+
+	c = a
 	
 	io.print(x)
 	

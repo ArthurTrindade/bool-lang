@@ -11,7 +11,7 @@ public class Main {
 	static Map<String, Command> commands = new HashMap<>();
 	
 	public static void main(String[] args) throws IOException {
-		List<String> codes = Files.readAllLines(Paths.get("src/interpreter/test2a.boolc"));
+		List<String> codes = Files.readAllLines(Paths.get("src/interpreter/test2.boolc"));
 		
 		Program program = new Program();
 		program.init(codes);
@@ -35,14 +35,23 @@ public class Main {
 			Method currentMethod = program.getCurrentMethod();
 			int currentPc = currentMethod.getPc();
 			if (currentPc >= currentMethod.getBody().size()) break;
-			
 			String line = currentMethod.getBody().get(currentPc);
 			getCommand(line).execute();
 			currentMethod.updatePc(1);
+			//CollectionCheck();
 		}
 		
 		for (var key : program.getCurrentMethod().getVars().keySet()) {
 			System.out.println(key + ": " + program.getCurrentMethod().getVars().get(key).getValue());
+		}
+
+		Systen.out.println("\n");
+
+		Variable aux;
+		for (var key : program.getMemory() ) {
+			aux = key;
+			System.out.println(aux.getClasse().getName());
+			System.out.println(aux.getValue());
 		}
 	}
 	
