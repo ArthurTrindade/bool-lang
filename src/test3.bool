@@ -1,0 +1,11 @@
+main()
+vars a, b, c, x
+begin
+ x = 10
+ b = 1023
+ c = b * x
+ a = x
+ b = x
+ c = x
+
+end
