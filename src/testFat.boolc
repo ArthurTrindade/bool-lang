@@ -1,0 +1,57 @@
+class Fat
+    vars a
+    method fat(num)
+    vars um, tmp, res, obj
+    begin
+      const 1
+      store um
+
+      load num
+      load um
+      le
+      if 2
+        load um
+        ret
+      else 18
+        const 1
+        store um
+
+        load num
+        load um
+        sub
+        store tmp
+
+        new Fat
+        store obj
+
+        load tmp
+        load obj
+        call fat
+        store res
+
+        load num
+        load res
+        mul
+        store num
+
+        load num
+        ret
+    end-method
+end-class
+
+main()
+  vars n, f, res
+  begin
+    new Fat
+    store f
+
+    const 12
+    store n
+
+    load n
+    load f
+    call fat
+    store res
+end
+
+

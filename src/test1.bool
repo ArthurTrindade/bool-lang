@@ -1,0 +1,22 @@
+
+
+class Base
+vars id
+  method showid()
+   vars x, zero
+   begin
+     zero = 0
+     io = new Io
+     x = self.id
+     io.print(x)
+     return zero
+   end-method
+end-class
+
+main()
+  vars a, b, c, x
+  begin
+  b = new Base
+  b.id = 10
+  b.showid()
+end
