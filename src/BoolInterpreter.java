@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main {
+public class BoolInterpreter {
 	static Map<String, Command> commands = new HashMap<>();
 	
 	public static void main(String[] args) throws IOException {
